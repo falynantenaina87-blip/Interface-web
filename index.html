@@ -1,78 +1,129 @@
-<style>
-  body {
-    margin: 0;
-    background-color: #1a0f2e;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina - Expérience Elite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            background-color: #0f081a;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+        }
 
-  /* --- L'ANIMATION OPTIMISÉE --- */
-  .bg-animation {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    z-index: -1;
-    /* On applique le flou ici une seule fois au lieu de l'appliquer sur chaque blob */
-    filter: blur(60px); 
-    transform: translateZ(0); /* Force l'accélération matérielle */
-  }
+        /* Arrière-plan animé ultra-fluide */
+        .bg-canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            filter: blur(100px);
+            transform: translateZ(0);
+        }
 
-  .blob {
-    position: absolute;
-    width: 40vw; /* Taille basée sur l'écran */
-    height: 40vw;
-    border-radius: 50%;
-    opacity: 0.5;
-    will-change: transform; /* Prévient le navigateur du mouvement */
-  }
+        .blob {
+            position: absolute;
+            width: 50vmax;
+            height: 50vmax;
+            border-radius: 50%;
+            opacity: 0.4;
+            will-change: transform;
+            animation: move 15s infinite alternate ease-in-out;
+        }
 
-  /* Des animations plus rapides et des trajectoires simplifiées */
-  .blob-1 { 
-    background: #FF8C42; 
-    top: -5%; left: -5%; 
-    animation: moveSimple 12s infinite alternate ease-in-out; 
-  }
-  .blob-2 { 
-    background: #FF0080; 
-    bottom: -5%; right: -5%; 
-    animation: moveSimple 15s infinite alternate-reverse ease-in-out; 
-  }
-  .blob-3 { 
-    background: #4a2b82; 
-    top: 30%; left: 20%; 
-    animation: moveSimple 18s infinite alternate ease-in-out; 
-  }
+        .blob-1 { background: #FF8C42; top: -20%; left: -10%; }
+        .blob-2 { background: #FF0080; bottom: -20%; right: -10%; animation-duration: 20s; }
+        .blob-3 { background: #4a2b82; top: 20%; left: 10%; animation-duration: 25s; }
 
-  @keyframes moveSimple {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(15%, 15%) scale(1.1); }
-  }
+        @keyframes move {
+            from { transform: translate(0, 0) scale(1) rotate(0deg); }
+            to { transform: translate(10%, 15%) scale(1.2) rotate(45deg); }
+        }
 
-  /* --- LA CARTE --- */
-  .glass-card {
-    background: rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(20px); /* Un peu moins de flou pour plus de performance */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
-    padding: 2.5rem;
-    border-radius: 40px;
-    width: 90%;
-    max-width: 400px;
-    z-index: 10;
-  }
-</style>
-        <button class="btn-glow w-full py-5 rounded-2xl text-white font-bold tracking-[2px] uppercase text-xs mt-4">
-          Accéder à l'expérience
-        </button>
-      </div>
+        /* La Carte Glassmorphism */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+            transition: transform 0.4s ease;
+        }
 
-      <p class="text-center mt-8 text-[11px] text-white/30 uppercase tracking-widest">
-        Nouveau ici ? <a href="#" class="text-white hover:text-orange-400 font-bold transition-all">S'inscrire</a>
-      </p>
+        .glass-card:hover { transform: scale(1.01); }
+
+        .input-premium {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .input-premium:focus {
+            border-color: #FF8C42;
+            background: rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 20px rgba(255, 140, 66, 0.1);
+        }
+
+        .btn-elite {
+            background: linear-gradient(90deg, #FF8C42, #FF0080);
+            box-shadow: 0 10px 30px rgba(255, 0, 128, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .btn-elite:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(255, 0, 128, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-canvas">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
     </div>
 
-  </body>
+    <div class="glass-card p-10 md:p-14 rounded-[45px] w-[90%] max-w-[420px] text-center relative z-10">
+        <header class="mb-10">
+            <span class="text-[10px] tracking-[4px] uppercase text-white/40 block mb-3 font-semibold">Accès Privé</span>
+            <h1 class="font-serif text-5xl italic text-white mb-2">Lumina</h1>
+            <div class="h-[2px] w-10 bg-gradient-to-r from-orange-400 to-pink-500 mx-auto rounded-full"></div>
+        </header>
+
+        <form class="space-y-6 text-left">
+            <div>
+                <input type="email" placeholder="Email" 
+                    class="input-premium w-full rounded-2xl px-6 py-4 outline-none text-white placeholder:text-white/20 text-sm">
+            </div>
+            
+            <div class="space-y-2">
+                <input type="password" placeholder="Mot de passe" 
+                    class="input-premium w-full rounded-2xl px-6 py-4 outline-none text-white placeholder:text-white/20 text-sm">
+                <div class="text-right">
+                    <a href="#" class="text-[10px] text-white/30 hover:text-orange-400 transition-all uppercase tracking-tighter">Oublié ?</a>
+                </div>
+            </div>
+
+            <button type="button" class="btn-elite w-full py-5 rounded-2xl text-white font-bold tracking-[2px] uppercase text-[11px] mt-4">
+                Entrer dans l'expérience
+            </button>
+        </form>
+
+        <footer class="mt-10">
+            <p class="text-[11px] text-white/30 uppercase tracking-[1px]">
+                Nouveau ici ? <a href="#" class="text-white hover:text-orange-400 font-bold transition-all ml-1 underline decoration-orange-500/30 underline-offset-4">S'inscrire</a>
+            </p>
+        </footer>
+    </div>
+
+</body>
 </html>
 
