@@ -15,27 +15,10 @@
             colors: {
               'deep-violet': '#2D1B4E',
               'burnt-orange': '#FF8C42',
-              'sunset-start': '#FF8C42',
-              'sunset-end': '#FF0080', // Pinkish/Rose for the gradient end
             },
             fontFamily: {
               sans: ['Inter', 'sans-serif'],
               serif: ['Playfair Display', 'serif'],
-            },
-            animation: {
-              'float-slow': 'float 8s ease-in-out infinite',
-              'float-delayed': 'float 10s ease-in-out infinite reverse',
-              'pulse-glow': 'pulseGlow 3s infinite',
-            },
-            keyframes: {
-              float: {
-                '0%, 100%': { transform: 'translateY(0) scale(1)' },
-                '50%': { transform: 'translateY(-20px) scale(1.05)' },
-              },
-              pulseGlow: {
-                '0%, 100%': { opacity: '0.6' },
-                '50%': { opacity: '1' },
-              }
             }
           }
         }
@@ -44,37 +27,82 @@
     <style>
       body {
         margin: 0;
-        padding: 0;
-        overflow-x: hidden;
-        background-color: #2D1B4E;
+        background: radial-gradient(circle at top right, #4a2b82, #2D1B4E);
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        overflow: hidden;
       }
-      /* Custom Scrollbar for Webkit */
-      ::-webkit-scrollbar {
-        width: 8px;
+
+      /* Effet de vitre (Glassmorphism) */
+      .glass-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
       }
-      ::-webkit-scrollbar-track {
-        background: #2D1B4E; 
+
+      /* Animation des bulles de fond */
+      .bubble {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(60px);
+        z-index: -1;
+        animation: float 10s infinite ease-in-out;
       }
-      ::-webkit-scrollbar-thumb {
-        background: #4a3b69; 
-        border-radius: 4px;
+
+      @keyframes float {
+        0%, 100% { transform: translateY(0) scale(1); }
+        50% { transform: translateY(-30px) scale(1.1); }
       }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #FF8C42; 
+
+      /* Style du bouton "Sunset" */
+      .btn-sunset {
+        background: linear-gradient(90deg, #FF8C42, #FF0080);
+        transition: all 0.3s ease;
+      }
+      .btn-sunset:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(255, 140, 66, 0.3);
       }
     </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0"
-  }
-}
-</script>
-</head>
+  </head>
   <body>
-    <div id="root"></div>
+    <div class="bubble bg-burnt-orange w-64 h-64 top-10 left-10 opacity-20"></div>
+    <div class="bubble bg-purple-600 w-96 h-96 bottom-10 right-10 opacity-20" style="animation-delay: -2s;"></div>
+
+    <div class="glass-card p-10 rounded-[40px] w-full max-w-md mx-4 relative overflow-hidden">
+      <div class="absolute top-6 right-6 px-3 py-1 rounded-full border border-white/20 text-[10px] uppercase tracking-widest font-bold bg-white/5">
+        Elite Access
+      </div>
+
+      <h1 class="font-serif text-4xl mb-2 italic">Bienvenue</h1>
+      <p class="text-white/50 text-sm mb-8 font-light">Connectez-vous pour accéder à votre espace premium.</p>
+
+      <form class="space-y-6">
+        <div>
+          <label class="block text-[10px] uppercase tracking-[2px] mb-2 font-bold text-white/70">Email Professionnel</label>
+          <input type="email" placeholder="nom@entreprise.com" 
+            class="w-full bg-black/20 border border-white/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-burnt-orange transition-colors placeholder:text-white/20">
+        </div>
+
+        <div>
+          <label class="block text-[10px] uppercase tracking-[2px] mb-2 font-bold text-white/70">Mot de passe</label>
+          <input type="password" placeholder="••••••••" 
+            class="w-full bg-black/20 border border-white/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-burnt-orange transition-colors placeholder:text-white/20">
+        </div>
+
+        <button type="submit" class="btn-sunset w-full py-4 rounded-2xl font-bold text-sm tracking-widest uppercase">
+          Connexion —>
+        </button>
+      </form>
+
+      <div class="mt-8 pt-6 border-t border-white/5 text-center">
+        <p class="text-xs text-white/40">Vous n'avez pas de compte ? <a href="#" class="text-burnt-orange font-bold hover:underline">Créer un profil</a></p>
+      </div>
+    </div>
   </body>
 </html>
+
