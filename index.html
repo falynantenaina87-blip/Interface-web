@@ -1,111 +1,68 @@
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lumina Auth - Animated Elite</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      body {
-        margin: 0;
-        background-color: #1a0f2e; /* Fond sombre de base */
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-        perspective: 1000px;
-      }
+<style>
+  body {
+    margin: 0;
+    background-color: #1a0f2e;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
 
-      /* --- L'ANIMATION ABSTRAITE --- */
-      .bg-animation {
-        position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        z-index: -1;
-        filter: blur(80px); /* Le secret pour l'aspect abstrait */
-      }
+  /* --- L'ANIMATION OPTIMISÉE --- */
+  .bg-animation {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1;
+    /* On applique le flou ici une seule fois au lieu de l'appliquer sur chaque blob */
+    filter: blur(60px); 
+    transform: translateZ(0); /* Force l'accélération matérielle */
+  }
 
-      .blob {
-        position: absolute;
-        width: 500px;
-        height: 500px;
-        border-radius: 50%;
-        opacity: 0.6;
-        animation: move 20s infinite alternate;
-      }
+  .blob {
+    position: absolute;
+    width: 40vw; /* Taille basée sur l'écran */
+    height: 40vw;
+    border-radius: 50%;
+    opacity: 0.5;
+    will-change: transform; /* Prévient le navigateur du mouvement */
+  }
 
-      .blob-1 { background: #FF8C42; top: -10%; left: -10%; animation-duration: 15s; }
-      .blob-2 { background: #FF0080; bottom: -10%; right: -10%; animation-duration: 25s; animation-delay: -5s; }
-      .blob-3 { background: #4a2b82; top: 40%; left: 30%; animation-duration: 18s; animation-delay: -2s; }
+  /* Des animations plus rapides et des trajectoires simplifiées */
+  .blob-1 { 
+    background: #FF8C42; 
+    top: -5%; left: -5%; 
+    animation: moveSimple 12s infinite alternate ease-in-out; 
+  }
+  .blob-2 { 
+    background: #FF0080; 
+    bottom: -5%; right: -5%; 
+    animation: moveSimple 15s infinite alternate-reverse ease-in-out; 
+  }
+  .blob-3 { 
+    background: #4a2b82; 
+    top: 30%; left: 20%; 
+    animation: moveSimple 18s infinite alternate ease-in-out; 
+  }
 
-      @keyframes move {
-        from { transform: translate(0, 0) rotate(0deg) scale(1); }
-        to { transform: translate(100px, 150px) rotate(90deg) scale(1.2); }
-      }
+  @keyframes moveSimple {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(15%, 15%) scale(1.1); }
+  }
 
-      /* --- LA CARTE --- */
-      .glass-card {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(30px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 50px 100px rgba(0, 0, 0, 0.4);
-        padding: 3rem;
-        border-radius: 45px;
-        width: 100%;
-        max-width: 420px;
-        transition: transform 0.5s ease;
-      }
-
-      .glass-card:hover {
-        transform: rotateX(2deg) rotateY(-2deg); /* Effet 3D léger au survol */
-      }
-
-      .btn-glow {
-        background: linear-gradient(90deg, #FF8C42, #FF0080);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .btn-glow::after {
-        content: '';
-        position: absolute;
-        top: -50%; left: -50%; width: 200%; height: 200%;
-        background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
-        transform: scale(0);
-        transition: transform 0.5s ease;
-      }
-
-      .btn-glow:hover::after { transform: scale(1); }
-
-    </style>
-  </head>
-  <body>
-
-    <div class="bg-animation">
-      <div class="blob blob-1"></div>
-      <div class="blob blob-2"></div>
-      <div class="blob blob-3"></div>
-    </div>
-
-    <div class="glass-card">
-      <div class="text-center mb-10">
-        <span class="text-[10px] tracking-[5px] uppercase text-white/40 block mb-2">Private Studio</span>
-        <h1 class="font-serif text-5xl italic text-white mb-2">Lumina</h1>
-      </div>
-
-      <div class="space-y-6">
-        <div class="group">
-          <input type="email" placeholder="Email" 
-            class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 outline-none focus:border-orange-400 transition-all text-white placeholder:text-white/20">
-        </div>
-        
-        <div class="group">
-          <input type="password" placeholder="Mot de passe" 
-            class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 outline-none focus:border-pink-500 transition-all text-white placeholder:text-white/20">
-        </div>
-
+  /* --- LA CARTE --- */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(20px); /* Un peu moins de flou pour plus de performance */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+    padding: 2.5rem;
+    border-radius: 40px;
+    width: 90%;
+    max-width: 400px;
+    z-index: 10;
+  }
+</style>
         <button class="btn-glow w-full py-5 rounded-2xl text-white font-bold tracking-[2px] uppercase text-xs mt-4">
           Accéder à l'expérience
         </button>
